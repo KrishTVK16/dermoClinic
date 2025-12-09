@@ -52,8 +52,8 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
           </div>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-8">
+        {/* Desktop Nav - hidden at 1024px and below */}
+        <nav className="hidden min-[1025px]:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
@@ -68,8 +68,8 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
           <Link to="/admin" className="text-xs text-zinc-400 hover:text-zinc-500">Admin</Link>
         </nav>
 
-        {/* Actions */}
-        <div className="hidden lg:flex items-center gap-4">
+        {/* Actions - hidden at 1024px and below */}
+        <div className="hidden min-[1025px]:flex items-center gap-4">
           <button 
             onClick={toggleTheme} 
             className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-zinc-600 dark:text-zinc-300"
@@ -81,9 +81,9 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
           </Link>
         </div>
 
-        {/* Mobile Toggle */}
+        {/* Mobile Toggle - visible at 1024px and below */}
         <button 
-          className="lg:hidden z-50 text-zinc-900 dark:text-white"
+          className="min-[1025px]:hidden z-50 text-zinc-900 dark:text-white"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
