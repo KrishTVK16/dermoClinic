@@ -238,7 +238,7 @@ export const HomePage = () => {
       
       {/* Introduction */}
       <section className="py-24 bg-white dark:bg-zinc-950">
-        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+        <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
           <div className="relative">
              <div className="absolute -top-4 -left-4 w-24 h-24 border-t-2 border-l-2 border-gold-500/50" />
              <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-gold-500/50" />
@@ -260,7 +260,7 @@ export const HomePage = () => {
                 <p className="text-xs uppercase tracking-widest text-zinc-500">Happy Patients</p>
               </div>
             </div>
-            <div className="flex justify-center md:justify-start">
+            <div className="flex justify-center lg:justify-start">
               <Link to="/about" className="inline-flex items-center gap-2 text-zinc-900 dark:text-white border-b border-zinc-900 dark:border-white pb-1 hover:text-gold-500 hover:border-gold-500 hover:gap-3 transition-all duration-300 group">
                 Read Our Story <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>
@@ -278,7 +278,7 @@ export const HomePage = () => {
             <p className="text-zinc-500 dark:text-zinc-400">Scientifically proven procedures tailored to your unique skin profile.</p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <ServiceCard key={service.id} service={service} index={index} />
             ))}
@@ -296,8 +296,8 @@ export const HomePage = () => {
       <section className="py-24 bg-zinc-900 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-zinc-800/30 skew-x-12 transform origin-top" />
         <div className="container mx-auto px-6 relative z-10">
-           <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-              <div className="md:w-1/2">
+           <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+              <div className="lg:w-1/2">
                 <div className="flex text-gold-500 mb-6 gap-1">
                   {[...Array(5)].map((_, i) => <Star key={i} size={20} fill="currentColor" />)}
                 </div>
@@ -309,7 +309,7 @@ export const HomePage = () => {
                   <p className="text-zinc-400 text-sm">Corrective Laser Patient</p>
                 </div>
               </div>
-              <div className="md:w-1/2 grid grid-cols-2 gap-4">
+              <div className="lg:w-1/2 grid grid-cols-2 gap-4">
                  {[
                    "Board Certified Dermatologists",
                    "FDA Approved Technologies",
@@ -343,7 +343,7 @@ export const HomeVariant = () => {
         <div className="pt-24 container mx-auto px-6 text-center">
             <h1 className="text-4xl font-serif mb-4 dark:text-white">Lumière Skincare Shop</h1>
             <p className="mb-8 dark:text-zinc-400">Professional grade skincare delivered to your door.</p>
-            <div className="grid md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                 {[1,2,3,4].map((item, i) => (
                     <div key={i} className="bg-zinc-50 dark:bg-zinc-900 p-4">
                         <img src={productImages[i]} className="w-full h-64 object-cover mb-4 grayscale hover:grayscale-0 transition-all" alt="Product"/>

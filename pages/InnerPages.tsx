@@ -251,8 +251,8 @@ export const AboutPage = () => {
       
       {/* Narrative Section */}
       <div className="container mx-auto px-6 py-20">
-         <div className="grid md:grid-cols-2 gap-16 items-center mb-24">
-            <div className="order-2 md:order-1">
+         <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
+            <div className="order-2 lg:order-1">
                <span className="text-gold-500 font-bold uppercase tracking-widest text-xs mb-4 block">Our Story</span>
                <h2 className="text-4xl font-serif mb-6 dark:text-white leading-tight">A Sanctuary of <br/>Medical Excellence</h2>
                <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
@@ -263,7 +263,7 @@ export const AboutPage = () => {
                </p>
                <div className="h-1 w-20 bg-gold-500 mt-8"></div>
             </div>
-            <div className="order-1 md:order-2 h-[600px] relative">
+            <div className="order-1 lg:order-2 h-[400px] lg:h-[600px] relative">
                <div className="absolute inset-0 bg-gold-500/10 transform translate-x-4 translate-y-4 -z-10"></div>
                <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=800" className="w-full h-full object-cover shadow-xl" alt="Clinic Interior"/>
             </div>
@@ -272,7 +272,7 @@ export const AboutPage = () => {
          {/* Values / Why Choose Us */}
          <div className="mb-24">
             <h2 className="text-3xl font-serif text-center mb-16 dark:text-white">Why Choose Lumière</h2>
-            <div className="grid md:grid-cols-3 gap-10">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
                {[
                  { icon: Shield, title: "Safety First", text: "We strictly adhere to the highest medical safety standards. All procedures are performed by or under the supervision of board-certified dermatologists." },
                  { icon: Sparkles, title: "Cutting-Edge Tech", text: "Our clinic is equipped with the latest laser and diagnostic technology, ensuring you get the most advanced care available." },
@@ -291,7 +291,7 @@ export const AboutPage = () => {
          
          {/* Team Section */}
          <h2 className="text-3xl font-serif text-center mb-12 dark:text-white">Meet The Team</h2>
-         <div className="grid md:grid-cols-4 gap-8">
+         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { 
                 name: "Dr. Sarah Lumière", 
@@ -664,7 +664,7 @@ export const PricingPage = () => {
     <div>
       <PageHeader title="Membership Pricing" subtitle="Invest in yourself with our exclusive membership tiers designed for consistent, long-term results." />
       <div className="container mx-auto px-6 py-20">
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {plans.map((plan, i) => (
             <motion.div 
               key={i}

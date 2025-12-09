@@ -137,7 +137,7 @@ export const Footer = () => {
   return (
     <footer className="bg-zinc-100 dark:bg-zinc-900 pt-24 pb-12">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-1">
              <div className="flex items-center gap-2 mb-6">
                 <div className="w-8 h-8 bg-zinc-900 dark:bg-white text-white dark:text-black flex items-center justify-center rounded-sm font-serif italic font-bold">L</div>
