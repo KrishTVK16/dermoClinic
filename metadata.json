@@ -1,0 +1,8 @@
+{
+  "name": "Lumière Dermatology & Aesthetics",
+  "description": "A high-end, luxury dermatology clinic template featuring smooth animations, a smart AI skin consultant, and a comprehensive admin dashboard.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
