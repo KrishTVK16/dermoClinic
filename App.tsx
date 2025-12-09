@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ClientLayout, AdminLayout } from './components/Layout';
 import { HomePage, HomeVariant } from './pages/Home';
-import { ServicesPage, AboutPage, ContactPage, BlogPage, PricingPage, PrivacyPage, TermsPage } from './pages/InnerPages';
+import { ServicesPage, AboutPage, ContactPage, BlogPage, BlogDetailPage, PricingPage, PrivacyPage, TermsPage } from './pages/InnerPages';
 import { Dashboard, PatientsList, OrdersList, PostsList, ServicesList, AdminSettings } from './pages/Admin';
 import { Theme } from './types';
 
@@ -69,6 +69,11 @@ const App = () => {
         <Route path="/blog" element={
           <ClientLayout theme={theme} toggleTheme={toggleTheme}>
             <BlogPage />
+          </ClientLayout>
+        } />
+        <Route path="/blog/:id" element={
+          <ClientLayout theme={theme} toggleTheme={toggleTheme}>
+            <BlogDetailPage />
           </ClientLayout>
         } />
         <Route path="/pricing" element={

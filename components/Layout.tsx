@@ -90,14 +90,20 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-0 bg-white dark:bg-zinc-950 z-40 flex flex-col items-center justify-center transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
+      {/* Mobile Menu Backdrop */}
+      <div 
+        className={`fixed inset-0 bg-black/40 z-30 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+      
+      {/* Mobile Menu Panel - 45% width, 60% height, from right */}
+      <div className={`fixed top-0 right-0 w-[45%] h-[60%] bg-white dark:bg-zinc-900 z-40 flex flex-col items-center justify-center rounded-bl-2xl shadow-2xl transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
          {navLinks.map((link) => (
             <Link 
               key={link.name} 
               to={link.path}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-2xl font-serif mb-6 hover:text-gold-500 dark:text-zinc-200 transition-colors"
+              className="text-lg font-serif mb-4 hover:text-gold-500 dark:text-zinc-200 transition-colors"
             >
               {link.name}
             </Link>
@@ -105,7 +111,7 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
           <Link 
             to="/admin" 
             onClick={() => setIsMobileMenuOpen(false)}
-            className="text-sm text-zinc-500 uppercase tracking-widest mt-4"
+            className="text-xs text-zinc-500 uppercase tracking-widest mt-4"
           >
             Admin Dashboard
           </Link>

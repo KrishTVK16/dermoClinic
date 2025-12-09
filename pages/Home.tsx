@@ -91,8 +91,8 @@ const ServiceCard = ({ service, index }: { service: Service; index: number }) =>
         <span className="text-xs font-bold text-gold-500 uppercase tracking-wider mb-2 block">{service.category}</span>
         <h3 className="text-2xl font-serif font-medium mb-3 group-hover:text-gold-500 transition-colors dark:text-white">{service.title}</h3>
         <p className="text-zinc-500 dark:text-zinc-400 text-sm mb-6 leading-relaxed line-clamp-3">{service.description}</p>
-        <Link to={`/services/${service.id}`} className="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wider hover:gap-3 transition-all">
-          Learn More <ArrowRight size={16} />
+        <Link to={`/services/${service.id}`} className="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wider hover:gap-3 hover:text-gold-500 transition-all duration-300 group">
+          Learn More <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
     </motion.div>
@@ -149,7 +149,7 @@ const AIConsultant = () => {
                     <h3 className="text-white font-serif text-xl">Lumière AI Consultant</h3>
                     <p className="text-zinc-400 text-sm mt-1">Ask me about your skin concerns.</p>
                   </div>
-                  <button onClick={() => setIsOpen(false)} className="text-zinc-400 hover:text-white"><ArrowRight className="rotate-45" /></button>
+                  <button onClick={() => setIsOpen(false)} className="text-zinc-400 hover:text-white hover:rotate-90 transition-all duration-300"><ArrowRight className="rotate-45" /></button>
                 </div>
                 
                 <div className="p-6 max-h-[60vh] overflow-y-auto">
@@ -166,12 +166,14 @@ const AIConsultant = () => {
                         </div>
                         <p className="text-zinc-800 dark:text-zinc-200 text-sm leading-relaxed whitespace-pre-wrap">{response}</p>
                       </div>
-                      <button 
-                        onClick={() => { setResponse(null); setQuery(''); }}
-                        className="text-xs text-center w-full text-zinc-400 hover:text-zinc-600 mt-4 underline"
-                      >
-                        Ask another question
-                      </button>
+                      <div className="flex justify-center mt-4">
+                        <button 
+                          onClick={() => { setResponse(null); setQuery(''); }}
+                          className="text-xs text-zinc-400 hover:text-gold-500 underline hover:no-underline transition-all duration-300"
+                        >
+                          Ask another question
+                        </button>
+                      </div>
                     </div>
                   ) : (
                     <form onSubmit={handleConsult} className="space-y-4">
@@ -258,7 +260,11 @@ export const HomePage = () => {
                 <p className="text-xs uppercase tracking-widest text-zinc-500">Happy Patients</p>
               </div>
             </div>
-            <Link to="/about" className="text-zinc-900 dark:text-white border-b border-zinc-900 dark:border-white pb-1 hover:text-gold-500 hover:border-gold-500 transition-colors">Read Our Story</Link>
+            <div className="flex justify-center md:justify-start">
+              <Link to="/about" className="inline-flex items-center gap-2 text-zinc-900 dark:text-white border-b border-zinc-900 dark:border-white pb-1 hover:text-gold-500 hover:border-gold-500 hover:gap-3 transition-all duration-300 group">
+                Read Our Story <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -278,8 +284,8 @@ export const HomePage = () => {
             ))}
           </div>
           
-          <div className="text-center mt-12">
-            <Link to="/services" className="inline-block px-8 py-3 border border-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-white hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300">
+          <div className="flex justify-center mt-12">
+            <Link to="/services" className="inline-block px-8 py-3 border border-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-white hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-black hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
               View All Services
             </Link>
           </div>

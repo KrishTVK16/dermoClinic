@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Check, ChevronDown, ChevronUp, Search, Tag, Calendar, Heart, Shield, Sparkles, UserCheck, X } from 'lucide-react';
 import { Service, FAQItem, BlogPost } from '../types';
@@ -215,9 +216,9 @@ export const ServicesPage = () => {
                       <span className="text-lg font-medium dark:text-white">{service.price}</span>
                       <button 
                         onClick={() => setSelectedService(service)}
-                        className="text-sm font-bold uppercase tracking-widest hover:text-gold-500 transition-colors flex items-center gap-2"
+                        className="text-sm font-bold uppercase tracking-widest hover:text-gold-500 hover:gap-3 transition-all flex items-center gap-2 group"
                       >
-                        Book Now <span className="text-xl">→</span>
+                        Book Now <span className="text-xl group-hover:translate-x-1 transition-transform">→</span>
                       </button>
                    </div>
                 </div>
@@ -421,7 +422,7 @@ export const ContactPage = () => {
                 <div key={index} className="border border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden bg-white dark:bg-zinc-900">
                   <button 
                     onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                    className="w-full flex items-center justify-between p-6 text-left hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
+                    className="w-full flex items-center justify-between p-6 text-left hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-all duration-300 group"
                   >
                     <span className="font-medium text-lg dark:text-white pr-8">{faq.question}</span>
                     {openFaq === index ? <ChevronUp className="text-gold-500 flex-shrink-0"/> : <ChevronDown className="text-zinc-400 flex-shrink-0"/>}
@@ -456,10 +457,9 @@ export const BlogPage = () => {
         { id: '2', title: 'Laser Resurfacing: What to Expect', excerpt: 'A comprehensive look at downtime, results, and aftercare for our most popular anti-aging treatment.', date: 'Oct 18, 2024', image: 'https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=800', category: 'Treatments', author: 'Dr. James Chen' },
         { id: '3', title: 'The Science Behind Hyaluronic Acid', excerpt: 'Why this miracle molecule is essential for hydration and how to choose the right product for your skin type.', date: 'Oct 10, 2024', image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800', category: 'Ingredients', author: 'Elena Rodriguez' },
         { id: '4', title: '5 Foods for Radiant Skin', excerpt: 'Nutrition plays a vital role in skin health. Here are the top superfoods to incorporate into your diet today.', date: 'Sep 28, 2024', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800', category: 'Wellness', author: 'Dr. Sarah Lumière' },
-        { id: '5', title: 'Sunscreen: The Myth of SPF 100', excerpt: 'Understanding SPF ratings and why higher isn\'t always better when it comes to sun protection.', date: 'Sep 15, 2024', image: 'https://images.unsplash.com/photo-1529940340007-8ef64ab965d3?q=80&w=800', category: 'Sun Safety', author: 'Michael Chang' },
     ];
 
-    const categories = ["All", "Skincare", "Treatments", "Wellness", "Ingredients", "News"];
+    const categories = ["All", "Skincare", "Treatments", "Wellness", "Ingredients"];
     const tags = ["Anti-Aging", "Acne", "Hydration", "Laser", "Botox", "Summer", "Routine"];
 
     return (
@@ -470,7 +470,11 @@ export const BlogPage = () => {
                     {/* Main Content */}
                     <div className="lg:col-span-2 space-y-12">
                         {posts.map((post) => (
-                            <div key={post.id} className="group cursor-pointer border-b border-zinc-100 dark:border-zinc-800 pb-12 last:border-0">
+                            <Link 
+                                key={post.id} 
+                                to={`/blog/${post.id}`}
+                                className="group block cursor-pointer border-b border-zinc-100 dark:border-zinc-800 pb-12 last:border-0"
+                            >
                                 <div className="h-[400px] overflow-hidden mb-6 rounded-lg relative">
                                     <img src={post.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt={post.title}/>
                                     <div className="absolute top-4 left-4 bg-white dark:bg-black px-4 py-1 text-xs font-bold uppercase tracking-widest text-zinc-900 dark:text-white shadow-lg">
@@ -484,8 +488,8 @@ export const BlogPage = () => {
                                 </div>
                                 <h3 className="text-3xl font-serif mb-4 dark:text-white group-hover:text-gold-500 transition-colors leading-tight">{post.title}</h3>
                                 <p className="text-zinc-600 dark:text-zinc-400 text-lg mb-6 leading-relaxed">{post.excerpt}</p>
-                                <button className="text-sm font-bold uppercase tracking-widest border-b-2 border-zinc-200 dark:border-zinc-800 pb-1 hover:border-gold-500 hover:text-gold-500 transition-all">Read Article</button>
-                            </div>
+                                <span className="text-sm font-bold uppercase tracking-widest border-b-2 border-zinc-200 dark:border-zinc-800 pb-1 group-hover:border-gold-500 group-hover:text-gold-500 transition-all duration-300 inline-block">Read Article</span>
+                            </Link>
                         ))}
                         
                         {/* Pagination */}
@@ -556,6 +560,87 @@ export const BlogPage = () => {
             </div>
         </div>
     )
+}
+
+// --- Blog Detail Page ---
+export const BlogDetailPage = () => {
+    const posts: BlogPost[] = [
+        { id: '1', title: 'The Ultimate Guide to Retinols in Winter', excerpt: 'Discover how to adapt your skincare routine for the colder months while maintaining that summer glow without irritation.', date: 'Oct 24, 2024', image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=800', category: 'Skincare', author: 'Dr. Sarah Lumière' },
+        { id: '2', title: 'Laser Resurfacing: What to Expect', excerpt: 'A comprehensive look at downtime, results, and aftercare for our most popular anti-aging treatment.', date: 'Oct 18, 2024', image: 'https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=800', category: 'Treatments', author: 'Dr. James Chen' },
+        { id: '3', title: 'The Science Behind Hyaluronic Acid', excerpt: 'Why this miracle molecule is essential for hydration and how to choose the right product for your skin type.', date: 'Oct 10, 2024', image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800', category: 'Ingredients', author: 'Elena Rodriguez' },
+        { id: '4', title: '5 Foods for Radiant Skin', excerpt: 'Nutrition plays a vital role in skin health. Here are the top superfoods to incorporate into your diet today.', date: 'Sep 28, 2024', image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800', category: 'Wellness', author: 'Dr. Sarah Lumière' },
+    ];
+
+    // Get post ID from URL - using window.location since we're using HashRouter
+    const postId = window.location.hash.split('/blog/')[1];
+    const post = posts.find(p => p.id === postId) || posts[0];
+
+    return (
+        <div>
+            <div className="bg-zinc-100 dark:bg-zinc-900 py-32 text-center relative overflow-hidden">
+                <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                <div className="container mx-auto px-6 relative z-10">
+                    <span className="text-gold-500 font-bold uppercase tracking-widest text-xs mb-4 block">{post.category}</span>
+                    <motion.h1 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-4xl md:text-5xl font-serif mb-6 dark:text-white max-w-3xl mx-auto"
+                    >
+                        {post.title}
+                    </motion.h1>
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="flex items-center justify-center gap-4 text-xs text-zinc-500 uppercase tracking-widest"
+                    >
+                        <span className="flex items-center gap-1"><Calendar size={14}/> {post.date}</span>
+                        <span>•</span>
+                        <span>By {post.author}</span>
+                    </motion.div>
+                </div>
+            </div>
+
+            <div className="container mx-auto px-6 py-16">
+                <div className="max-w-3xl mx-auto">
+                    <div className="h-[500px] overflow-hidden mb-12 rounded-lg">
+                        <img src={post.image} className="w-full h-full object-cover" alt={post.title}/>
+                    </div>
+                    
+                    <div className="prose dark:prose-invert prose-zinc max-w-none">
+                        <p className="text-xl text-zinc-600 dark:text-zinc-300 leading-relaxed mb-8">
+                            {post.excerpt}
+                        </p>
+                        <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </p>
+                        <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
+                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                        <h3 className="text-2xl font-serif dark:text-white mt-10 mb-4">Key Takeaways</h3>
+                        <ul className="list-disc list-inside space-y-2 text-zinc-600 dark:text-zinc-400 mb-6">
+                            <li>Always consult with a dermatologist before starting new treatments</li>
+                            <li>Consistency is key for seeing results</li>
+                            <li>Sun protection is essential regardless of the season</li>
+                            <li>Listen to your skin and adjust your routine accordingly</li>
+                        </ul>
+                        <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                            For personalized advice tailored to your specific skin concerns, we recommend scheduling a consultation with one of our expert dermatologists at Lumière.
+                        </p>
+                    </div>
+
+                    <div className="flex justify-center mt-12">
+                        <Link 
+                            to="/blog" 
+                            className="inline-flex items-center gap-2 px-8 py-3 border border-zinc-900 dark:border-zinc-700 text-zinc-900 dark:text-white hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-black hover:shadow-lg transition-all duration-300"
+                        >
+                            ← Back to Journal
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export const PricingPage = () => {
