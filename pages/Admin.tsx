@@ -318,7 +318,7 @@ export const PostsList = () => {
   const posts = [
     { id: 1, title: "The Ultimate Guide to Retinols in Winter", author: "Dr. Sarah Lumière", date: "Oct 24, 2024", views: "2.4k", status: "Published", image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=300" },
     { id: 2, title: "Understanding Laser Resurfacing", author: "Dr. James Chen", date: "Oct 20, 2024", views: "1.8k", status: "Published", image: "https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=300" },
-    { id: 3, title: "5 Tips for Post-Treatment Care", author: "Nurse Jessica", date: "Oct 15, 2024", views: "3.1k", status: "Published", image: "https://images.unsplash.com/photo-1556228720-1957be9822d1?q=80&w=300" },
+    { id: 3, title: "5 Tips for Post-Treatment Care", author: "Nurse Jessica", date: "Oct 15, 2024", views: "3.1k", status: "Published", image: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?q=80&w=300" },
     { id: 4, title: "New Technology Arriving This Fall", author: "Admin", date: "-", views: "-", status: "Draft", image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=300" },
   ];
 

@@ -146,18 +146,18 @@ export const ServicesPage = () => {
 
     // Aesthetic
     { id: 'a1', title: 'HydraFacial Elite', description: 'The ultimate hydration experience. Cleanse, extract, and hydrate your skin with super serums containing antioxidants, peptides, and hyaluronic acid.', price: '$250', image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=800', category: 'Aesthetic' },
-    { id: 'a2', title: 'Medical Grade Peels', description: 'Customized chemical peels designed to target hyperpigmentation, aging, and dullness, revealing a brighter and smoother complexion.', price: '$200', image: 'https://images.unsplash.com/photo-1601614346624-9df9d2c20677?q=80&w=800', category: 'Aesthetic' },
+    { id: 'a2', title: 'Medical Grade Peels', description: 'Customized chemical peels designed to target hyperpigmentation, aging, and dullness, revealing a brighter and smoother complexion.', price: '$200', image: 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=800', category: 'Aesthetic' },
     { id: 'a3', title: 'Diamond Glow', description: 'Next-level dermabrasion that exfoliates, extracts, and infuses skin with specific serums to target your unique skin concerns simultaneously.', price: '$300', image: 'https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=800', category: 'Aesthetic' },
 
     // Laser
-    { id: 'l1', title: 'CO2 Laser Resurfacing', description: 'The gold standard for skin rejuvenation. Effectively treats deep wrinkles, significant sun damage, and acne scars with dramatic results.', price: '$1,500', image: 'https://images.unsplash.com/photo-1628146636653-b26a570083cc?q=80&w=800', category: 'Laser' },
+    { id: 'l1', title: 'CO2 Laser Resurfacing', description: 'The gold standard for skin rejuvenation. Effectively treats deep wrinkles, significant sun damage, and acne scars with dramatic results.', price: '$1,500', image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=800', category: 'Laser' },
     { id: 'l2', title: 'Laser Hair Removal', description: 'Permanent hair reduction using the latest diode laser technology, safe for all skin types and providing smooth, maintenance-free skin.', price: '$150+', image: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?q=80&w=800', category: 'Laser' },
     { id: 'l3', title: 'Vascular Laser Therapy', description: 'Targeted treatment for rosacea, spider veins, and facial redness. Restores an even skin tone without downtime.', price: '$400', image: 'https://images.unsplash.com/photo-1519415387722-a1c3bbef716c?q=80&w=800', category: 'Laser' },
 
     // Injectables
     { id: 'i1', title: 'Botox & Dysport', description: 'Precise neuromodulator treatments to relax muscles and smooth dynamic wrinkles for a refreshed, rested appearance.', price: '$15/unit', image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800', category: 'Injectables' },
-    { id: 'i2', title: 'Juvederm Collection', description: 'Premium hyaluronic acid fillers to restore volume in cheeks, define lips, and contour the jawline for natural-looking enhancement.', price: '$750/syringe', image: 'https://images.unsplash.com/photo-1587315132225-b467f5379204?q=80&w=800', category: 'Injectables' },
-    { id: 'i3', title: 'Kybella', description: 'FDA-approved injectable treatment to permanently destroy fat cells under the chin, improving your profile without surgery.', price: '$600/vial', image: 'https://images.unsplash.com/photo-1596702652636-eb8be77479ac?q=80&w=800', category: 'Injectables' },
+    { id: 'i2', title: 'Juvederm Collection', description: 'Premium hyaluronic acid fillers to restore volume in cheeks, define lips, and contour the jawline for natural-looking enhancement.', price: '$750/syringe', image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=800', category: 'Injectables' },
+    { id: 'i3', title: 'Kybella', description: 'FDA-approved injectable treatment to permanently destroy fat cells under the chin, improving your profile without surgery.', price: '$600/vial', image: 'https://images.unsplash.com/photo-1573461160327-b450ce3d8e7f?q=80&w=800', category: 'Injectables' },
   ];
 
   const filteredServices = activeCategory === 'All'

@@ -23,6 +23,32 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
+    return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Services', path: '/services' },
@@ -65,7 +91,7 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
               {link.name}
             </Link>
           ))}
-          <Link to="/admin" className="text-xs text-zinc-400 hover:text-zinc-500">Admin</Link>
+          <Link to="/admin" className="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 px-4 py-2 rounded-full hover:bg-gold-500 hover:text-white transition-all duration-300">Admin</Link>
         </nav>
 
         {/* Actions - hidden at 1024px and below */}
@@ -92,12 +118,12 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
 
       {/* Mobile Menu Backdrop */}
       <div 
-        className={`fixed inset-0 bg-black/40 z-30 transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
+        className={`fixed inset-0 bg-black/40 z-30 transition-opacity duration-300 touch-none overscroll-none ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
         onClick={() => setIsMobileMenuOpen(false)}
       />
       
       {/* Mobile Menu Panel - 45% width, 60% height, from right */}
-      <div className={`fixed top-0 right-0 w-[45%] h-[60%] bg-white dark:bg-zinc-900 z-40 flex flex-col items-center justify-center rounded-bl-2xl shadow-2xl transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed top-0 right-0 w-[45%] h-[60%] bg-white dark:bg-zinc-900 z-40 flex flex-col items-center justify-center rounded-bl-2xl shadow-2xl transition-transform duration-300 overscroll-none ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
          {navLinks.map((link) => (
             <Link 
               key={link.name} 
@@ -111,9 +137,9 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
           <Link 
             to="/admin" 
             onClick={() => setIsMobileMenuOpen(false)}
-            className="text-xs text-zinc-500 uppercase tracking-widest mt-4"
+            className="mt-6 px-6 py-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-xs uppercase tracking-widest rounded-full hover:bg-gold-500 dark:hover:bg-gold-400 transition-all duration-300"
           >
-            Admin Dashboard
+            Admin
           </Link>
       </div>
     </header>
@@ -210,7 +236,7 @@ export const ClientLayout: React.FC<LayoutProps> = ({ children, theme, toggleThe
   return (
     <div className={`min-h-screen flex flex-col ${theme}`}>
       <Header theme={theme} toggleTheme={toggleTheme} />
-      <main className="flex-grow pt-0">{children}</main>
+      <main className="flex-grow pt-16 desktop:pt-0">{children}</main>
       <Footer />
     </div>
   );
@@ -218,7 +244,7 @@ export const ClientLayout: React.FC<LayoutProps> = ({ children, theme, toggleThe
 
 // --- Admin Layout Wrapper ---
 export const AdminLayout: React.FC<LayoutProps> = ({ children, theme, toggleTheme }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
 
   const menuItems = [
@@ -230,21 +256,46 @@ export const AdminLayout: React.FC<LayoutProps> = ({ children, theme, toggleThem
     { icon: Settings, label: 'Settings', path: '/admin/settings' },
   ];
 
+  // Lock body scroll when sidebar is open on mobile
+  useEffect(() => {
+    if (isSidebarOpen && window.innerWidth < 1024) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isSidebarOpen]);
+
   return (
     <div className={`min-h-screen flex bg-zinc-50 dark:bg-zinc-950 ${theme}`}>
+      {/* Sidebar Backdrop for mobile */}
+      <div 
+        className={`fixed inset-0 bg-black/40 z-30 lg:hidden transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
+        onClick={() => setIsSidebarOpen(false)}
+      />
+
       {/* Sidebar */}
       <aside className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
-        <div className="h-16 flex items-center px-6 border-b border-zinc-200 dark:border-zinc-800">
+        <div className="h-16 flex items-center justify-between px-6 border-b border-zinc-200 dark:border-zinc-800">
            <Link to="/" className="flex items-center gap-2">
             <div className="w-6 h-6 bg-zinc-900 dark:bg-white text-white dark:text-black flex items-center justify-center rounded-sm font-serif text-sm font-bold">L</div>
             <span className="font-serif text-lg font-bold dark:text-white">Lumière Admin</span>
           </Link>
+          <button 
+            onClick={() => setIsSidebarOpen(false)} 
+            className="lg:hidden p-1 text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
+          >
+            <X size={20} />
+          </button>
         </div>
         <nav className="p-4 space-y-1">
           {menuItems.map((item) => (
             <Link 
               key={item.path} 
               to={item.path}
+              onClick={() => setIsSidebarOpen(false)}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                 location.pathname === item.path 
                   ? 'bg-zinc-100 dark:bg-zinc-800 text-gold-600 dark:text-gold-400' 
@@ -259,20 +310,23 @@ export const AdminLayout: React.FC<LayoutProps> = ({ children, theme, toggleThem
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <header className="h-16 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-6">
-          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="lg:hidden p-2 text-zinc-500">
+      <div className="flex-1 flex flex-col min-w-0">
+        <header className="fixed top-0 right-0 left-0 lg:left-64 z-20 h-16 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-6">
+          <button 
+            onClick={() => setIsSidebarOpen(true)} 
+            className="lg:hidden p-2 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+          >
             <Menu size={20} />
           </button>
           <div className="flex-1"></div>
           <div className="flex items-center gap-4">
-             <button onClick={toggleTheme} className="p-2 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full">
+             <button onClick={toggleTheme} className="p-2 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors">
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <div className="w-8 h-8 rounded-full bg-gold-500 flex items-center justify-center text-white text-xs font-bold">A</div>
           </div>
         </header>
-        <main className="flex-1 overflow-y-auto p-6 md:p-8">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 mt-16">
           {children}
         </main>
       </div>
