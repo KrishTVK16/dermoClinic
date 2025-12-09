@@ -489,9 +489,9 @@ export const BlogPage = () => {
                         ))}
                         
                         {/* Pagination */}
-                        <div className="flex justify-center gap-2 pt-8">
+                        <div className="flex justify-center items-center gap-3 pt-8 mt-8 border-t border-zinc-100 dark:border-zinc-800">
                             {[1, 2, 3].map(i => (
-                                <button key={i} className={`w-10 h-10 flex items-center justify-center border ${i === 1 ? 'bg-zinc-900 text-white border-zinc-900 dark:bg-white dark:text-black' : 'border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400'} rounded-sm hover:bg-gold-500 hover:border-gold-500 hover:text-white transition-colors`}>
+                                <button key={i} className={`w-12 h-12 flex items-center justify-center border text-sm font-medium ${i === 1 ? 'bg-zinc-900 text-white border-zinc-900 dark:bg-white dark:text-black' : 'border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 bg-white dark:bg-zinc-900'} rounded-lg hover:bg-gold-500 hover:border-gold-500 hover:text-white transition-colors`}>
                                     {i}
                                 </button>
                             ))}

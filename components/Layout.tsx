@@ -53,7 +53,7 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
@@ -69,7 +69,7 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
         </nav>
 
         {/* Actions */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-4">
           <button 
             onClick={toggleTheme} 
             className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-zinc-600 dark:text-zinc-300"
@@ -83,7 +83,7 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
 
         {/* Mobile Toggle */}
         <button 
-          className="md:hidden z-50 text-zinc-900 dark:text-white"
+          className="lg:hidden z-50 text-zinc-900 dark:text-white"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
