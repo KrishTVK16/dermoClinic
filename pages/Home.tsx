@@ -446,24 +446,24 @@ const HeroSectionV2 = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full mb-8"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full mb-8 mx-auto lg:mx-0"
             >
               <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
               <span className="text-cyan-400 text-sm font-medium tracking-wide">Advanced Dermatological Science</span>
             </motion.div>
             
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight text-center lg:text-left">
               Precision
               <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
                 Skin Diagnostics
               </span>
             </h1>
             
-            <p className="text-slate-300 text-lg md:text-xl mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+            <p className="text-slate-300 text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed text-center lg:text-left">
               Experience next-generation dermatology powered by AI analysis, advanced imaging, and personalized treatment protocols designed for your unique skin biology.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Link 
                 to="/contact" 
                 className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 flex items-center justify-center gap-2"
@@ -480,7 +480,7 @@ const HeroSectionV2 = () => {
             </div>
             
             {/* Quick Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10">
+            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10 max-w-md mx-auto lg:mx-0">
               {[
                 { value: 98, suffix: '%', label: 'Accuracy Rate' },
                 { value: 15000, suffix: '+', label: 'Patients Analyzed' },
@@ -636,7 +636,7 @@ const ServicesSectionV2 = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
           {services.map((service, index) => (
             <motion.div
               key={index}
@@ -644,7 +644,7 @@ const ServicesSectionV2 = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`group relative bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-zinc-800 hover:shadow-xl ${colorClasses[service.color].shadow} transition-all duration-500`}
+              className={`group relative bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-zinc-800 hover:shadow-xl ${colorClasses[service.color].shadow} transition-all duration-500 w-full max-w-sm`}
             >
               <div className="h-48 overflow-hidden">
                 <img 
@@ -654,15 +654,15 @@ const ServicesSectionV2 = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-zinc-900 via-transparent to-transparent" />
               </div>
-              <div className="p-6 relative">
-                <div className={`w-12 h-12 ${colorClasses[service.color].bg} ${colorClasses[service.color].border} border rounded-xl flex items-center justify-center mb-4 -mt-12 relative z-10 bg-white dark:bg-zinc-900`}>
+              <div className="p-6 relative text-center md:text-left">
+                <div className={`w-12 h-12 ${colorClasses[service.color].bg} ${colorClasses[service.color].border} border rounded-xl flex items-center justify-center mb-4 -mt-12 relative z-10 bg-white dark:bg-zinc-900 mx-auto md:mx-0`}>
                   <service.icon size={24} className={colorClasses[service.color].text} />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{service.title}</h3>
                 <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4">{service.description}</p>
                 <Link 
                   to="/services" 
-                  className={`inline-flex items-center gap-1 text-sm font-medium ${colorClasses[service.color].text} hover:gap-2 transition-all`}
+                  className={`inline-flex items-center gap-1 text-sm font-medium ${colorClasses[service.color].text} hover:gap-2 transition-all mx-auto md:mx-0`}
                 >
                   Learn More <ChevronRight size={16} />
                 </Link>
@@ -697,7 +697,7 @@ const TrustSectionV2 = () => {
       
       <div className="container mx-auto px-6 relative z-10">
         {/* Stats Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20 justify-items-center">
           {stats.map((stat, index) => (
             <motion.div
               key={index}
@@ -705,7 +705,7 @@ const TrustSectionV2 = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="text-center p-8 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300"
+              className="text-center p-8 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:bg-white/10 transition-all duration-300 w-full max-w-xs"
             >
               <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center">
                 <stat.icon size={32} className="text-cyan-400" />
@@ -786,7 +786,7 @@ const TestimonialsSectionV2 = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={index}
@@ -794,26 +794,26 @@ const TestimonialsSectionV2 = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white dark:bg-zinc-800 rounded-2xl p-8 shadow-lg shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-zinc-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              className="bg-white dark:bg-zinc-800 rounded-2xl p-8 shadow-lg shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-zinc-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 w-full max-w-sm flex flex-col h-full"
             >
               {/* Stars */}
-              <div className="flex gap-1 mb-6">
+              <div className="flex gap-1 mb-6 justify-center md:justify-start">
                 {[...Array(testimonial.rating)].map((_, i) => (
                   <Star key={i} size={18} className="text-yellow-400 fill-yellow-400" />
                 ))}
               </div>
               
-              <blockquote className="text-slate-700 dark:text-slate-300 leading-relaxed mb-8 italic">
+              <blockquote className="text-slate-700 dark:text-slate-300 leading-relaxed mb-8 italic flex-grow text-center md:text-left">
                 "{testimonial.quote}"
               </blockquote>
               
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 justify-center md:justify-start mt-auto">
                 <img 
                   src={testimonial.image} 
                   alt={testimonial.author}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-cyan-500/30"
+                  className="w-14 h-14 rounded-full object-cover border-2 border-cyan-500/30 flex-shrink-0"
                 />
-                <div>
+                <div className="text-center md:text-left">
                   <div className="font-bold text-slate-900 dark:text-white">{testimonial.author}</div>
                   <div className="text-sm text-slate-500 dark:text-slate-400">{testimonial.role}</div>
                 </div>
