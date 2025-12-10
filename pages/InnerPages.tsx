@@ -252,16 +252,16 @@ export const AboutPage = () => {
       {/* Narrative Section */}
       <div className="container mx-auto px-6 py-20">
          <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
-            <div className="order-2 lg:order-1">
+            <div className="order-2 lg:order-1 text-center">
                <span className="text-gold-500 font-bold uppercase tracking-widest text-xs mb-4 block">Our Story</span>
                <h2 className="text-4xl font-serif mb-6 dark:text-white leading-tight">A Sanctuary of <br/>Medical Excellence</h2>
-               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
+               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6 max-w-xl mx-auto">
                   Founded in 2010 by Dr. Sarah Lumière, our clinic was born from a vision to bridge the gap between sterile medical offices and lavish day spas. We believe that receiving top-tier dermatological care should not be an intimidating experience.
                </p>
-               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
+               <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6 max-w-xl mx-auto">
                   At Lumière, every treatment plan is bespoke, created after a thorough analysis of your unique skin profile, genetic factors, and lifestyle. We invest heavily in the latest FDA-approved technologies to ensure our patients receive the safest, most effective treatments available globally.
                </p>
-               <div className="h-1 w-20 bg-gold-500 mt-8"></div>
+               <div className="h-1 w-20 bg-gold-500 mt-8 mx-auto"></div>
             </div>
             <div className="order-1 lg:order-2 h-[400px] lg:h-[600px] relative">
                <div className="absolute inset-0 bg-gold-500/10 transform translate-x-4 translate-y-4 -z-10"></div>
@@ -349,10 +349,10 @@ export const ContactPage = () => {
       <div className="container mx-auto px-6 py-20">
          <div className="grid lg:grid-cols-2 gap-16 mb-24">
             {/* Form */}
-            <div>
+            <div className="text-center">
                <h2 className="text-2xl font-serif mb-8 dark:text-white">Get In Touch</h2>
                <form className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid md:grid-cols-2 gap-6 text-left">
                      <div className="space-y-2">
                        <label className="text-xs uppercase tracking-widest text-zinc-500">First Name</label>
                        <input type="text" className="w-full border-b border-zinc-300 dark:border-zinc-700 bg-transparent py-3 focus:border-gold-500 outline-none dark:text-white transition-colors" />
@@ -362,21 +362,23 @@ export const ContactPage = () => {
                        <input type="text" className="w-full border-b border-zinc-300 dark:border-zinc-700 bg-transparent py-3 focus:border-gold-500 outline-none dark:text-white transition-colors" />
                      </div>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 text-left">
                      <label className="text-xs uppercase tracking-widest text-zinc-500">Email Address</label>
                      <input type="email" className="w-full border-b border-zinc-300 dark:border-zinc-700 bg-transparent py-3 focus:border-gold-500 outline-none dark:text-white transition-colors" />
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 text-left">
                      <label className="text-xs uppercase tracking-widest text-zinc-500">Phone Number</label>
                      <input type="tel" className="w-full border-b border-zinc-300 dark:border-zinc-700 bg-transparent py-3 focus:border-gold-500 outline-none dark:text-white transition-colors" />
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 text-left">
                      <label className="text-xs uppercase tracking-widest text-zinc-500">Message</label>
                      <textarea rows={4} className="w-full border-b border-zinc-300 dark:border-zinc-700 bg-transparent py-3 focus:border-gold-500 outline-none dark:text-white transition-colors resize-none"></textarea>
                   </div>
-                  <button className="bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-10 py-4 uppercase tracking-widest text-sm font-bold hover:bg-gold-500 dark:hover:bg-gold-400 transition-colors w-full md:w-auto shadow-lg">
-                     Send Message
-                  </button>
+                  <div className="flex justify-center">
+                    <button className="bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-10 py-4 uppercase tracking-widest text-sm font-bold hover:bg-gold-500 dark:hover:bg-gold-400 transition-colors w-full md:w-auto shadow-lg">
+                       Send Message
+                    </button>
+                  </div>
                </form>
             </div>
             
@@ -473,7 +475,7 @@ export const BlogPage = () => {
                             <Link 
                                 key={post.id} 
                                 to={`/blog/${post.id}`}
-                                className="group block cursor-pointer border-b border-zinc-100 dark:border-zinc-800 pb-12 last:border-0"
+                                className="group block cursor-pointer border-b border-zinc-100 dark:border-zinc-800 pb-12 last:border-0 text-center"
                             >
                                 <div className="h-[400px] overflow-hidden mb-6 rounded-lg relative">
                                     <img src={post.image} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt={post.title}/>
@@ -481,13 +483,13 @@ export const BlogPage = () => {
                                         {post.category}
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-4 text-xs text-zinc-500 mb-4 uppercase tracking-widest">
+                                <div className="flex items-center justify-center gap-4 text-xs text-zinc-500 mb-4 uppercase tracking-widest">
                                     <span className="flex items-center gap-1"><Calendar size={14}/> {post.date}</span>
                                     <span>•</span>
                                     <span>By {post.author}</span>
                                 </div>
                                 <h3 className="text-3xl font-serif mb-4 dark:text-white group-hover:text-gold-500 transition-colors leading-tight">{post.title}</h3>
-                                <p className="text-zinc-600 dark:text-zinc-400 text-lg mb-6 leading-relaxed">{post.excerpt}</p>
+                                <p className="text-zinc-600 dark:text-zinc-400 text-lg mb-6 leading-relaxed max-w-2xl mx-auto">{post.excerpt}</p>
                                 <span className="text-sm font-bold uppercase tracking-widest border-b-2 border-zinc-200 dark:border-zinc-800 pb-1 group-hover:border-gold-500 group-hover:text-gold-500 transition-all duration-300 inline-block">Read Article</span>
                             </Link>
                         ))}

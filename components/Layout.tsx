@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Moon, Sun, Menu, X, ArrowRight, Instagram, Twitter, Linkedin, Facebook, LayoutDashboard, Users, ShoppingBag, FileText, Settings, Sparkles, Check } from 'lucide-react';
+import { Moon, Sun, Menu, X, ArrowRight, Instagram, Twitter, Linkedin, Facebook, LayoutDashboard, Users, ShoppingBag, FileText, Settings, Sparkles, Check, ChevronDown, Home, Zap } from 'lucide-react';
 
 // --- Types ---
 interface LayoutProps {
@@ -13,6 +13,9 @@ interface LayoutProps {
 export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void }> = ({ theme, toggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isHomeDropdownOpen, setIsHomeDropdownOpen] = useState(false);
+  const [isMobileHomeOpen, setIsMobileHomeOpen] = useState(false);
+  const homeDropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -21,6 +24,17 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (homeDropdownRef.current && !homeDropdownRef.current.contains(event.target as Node)) {
+        setIsHomeDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   // Lock body scroll when mobile menu is open
@@ -49,8 +63,12 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
     };
   }, [isMobileMenuOpen]);
 
+  const homeOptions = [
+    { name: 'Classic Home', path: '/', icon: Home, description: 'Elegant & Refined' },
+    { name: 'High-Tech Home', path: '/home-v2', icon: Zap, description: 'Modern & Futuristic' },
+  ];
+
   const navLinks = [
-    { name: 'Home', path: '/' },
     { name: 'Services', path: '/services' },
     { name: 'About', path: '/about' },
     { name: 'Blog', path: '/blog' },
@@ -80,6 +98,58 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
 
         {/* Desktop Nav - hidden at 1024px and below */}
         <nav className="hidden desktop:flex items-center gap-8">
+          {/* Home Dropdown */}
+          <div className="relative" ref={homeDropdownRef}>
+            <button 
+              onClick={() => setIsHomeDropdownOpen(!isHomeDropdownOpen)}
+              className={`text-sm uppercase tracking-widest font-medium transition-colors hover:text-gold-500 flex items-center gap-1 ${
+                location.pathname === '/' || location.pathname === '/home-v2' ? 'text-gold-500' : 'text-zinc-600 dark:text-zinc-300'
+              }`}
+            >
+              Home
+              <ChevronDown size={14} className={`transition-transform duration-200 ${isHomeDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {/* Dropdown Menu */}
+            <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-4 w-64 bg-white dark:bg-zinc-900 rounded-xl shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden transition-all duration-300 ${isHomeDropdownOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
+              <div className="p-2">
+                {homeOptions.map((option) => (
+                  <Link
+                    key={option.path}
+                    to={option.path}
+                    onClick={() => setIsHomeDropdownOpen(false)}
+                    className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 group ${
+                      location.pathname === option.path 
+                        ? 'bg-gold-50 dark:bg-gold-500/10' 
+                        : 'hover:bg-zinc-50 dark:hover:bg-zinc-800'
+                    }`}
+                  >
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
+                      location.pathname === option.path 
+                        ? 'bg-gold-500 text-white' 
+                        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 group-hover:bg-gold-500 group-hover:text-white'
+                    }`}>
+                      <option.icon size={18} />
+                    </div>
+                    <div>
+                      <div className={`text-sm font-medium ${
+                        location.pathname === option.path 
+                          ? 'text-gold-600 dark:text-gold-400' 
+                          : 'text-zinc-900 dark:text-white'
+                      }`}>
+                        {option.name}
+                      </div>
+                      <div className="text-xs text-zinc-500 dark:text-zinc-400">{option.description}</div>
+                    </div>
+                    {location.pathname === option.path && (
+                      <Check size={16} className="ml-auto text-gold-500" />
+                    )}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
@@ -123,7 +193,38 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
       />
       
       {/* Mobile Menu Panel - 45% width, 60% height, from right */}
-      <div className={`fixed top-0 right-0 w-[45%] h-[60%] bg-white dark:bg-zinc-900 z-40 flex flex-col items-center justify-center rounded-bl-2xl shadow-2xl transition-transform duration-300 overscroll-none ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed top-0 right-0 w-[55%] sm:w-[45%] h-[70%] bg-white dark:bg-zinc-900 z-40 flex flex-col items-center justify-center rounded-bl-2xl shadow-2xl transition-transform duration-300 overscroll-none ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+         {/* Mobile Home Dropdown */}
+         <div className="mb-4 w-full px-6">
+           <button 
+             onClick={() => setIsMobileHomeOpen(!isMobileHomeOpen)}
+             className="text-lg font-serif hover:text-gold-500 dark:text-zinc-200 transition-colors flex items-center gap-2 justify-center w-full"
+           >
+             Home
+             <ChevronDown size={16} className={`transition-transform duration-200 ${isMobileHomeOpen ? 'rotate-180' : ''}`} />
+           </button>
+           <div className={`overflow-hidden transition-all duration-300 ${isMobileHomeOpen ? 'max-h-40 mt-3' : 'max-h-0'}`}>
+             <div className="space-y-2">
+               {homeOptions.map((option) => (
+                 <Link
+                   key={option.path}
+                   to={option.path}
+                   onClick={() => { setIsMobileMenuOpen(false); setIsMobileHomeOpen(false); }}
+                   className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all ${
+                     location.pathname === option.path 
+                       ? 'bg-gold-50 dark:bg-gold-500/10 text-gold-600 dark:text-gold-400' 
+                       : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800'
+                   }`}
+                 >
+                   <option.icon size={16} />
+                   {option.name}
+                   {location.pathname === option.path && <Check size={14} className="ml-auto" />}
+                 </Link>
+               ))}
+             </div>
+           </div>
+         </div>
+
          {navLinks.map((link) => (
             <Link 
               key={link.name} 

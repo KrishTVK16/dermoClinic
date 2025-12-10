@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ClientLayout, AdminLayout } from './components/Layout';
-import { HomePage, HomeVariant } from './pages/Home';
+import { HomePage, HomeVariant, HomePageV2 } from './pages/Home';
 import { ServicesPage, AboutPage, ContactPage, BlogPage, BlogDetailPage, PricingPage, PrivacyPage, TermsPage } from './pages/InnerPages';
 import { Dashboard, PatientsList, OrdersList, PostsList, ServicesList, AdminSettings } from './pages/Admin';
 import { Theme } from './types';
@@ -49,6 +49,11 @@ const App = () => {
         <Route path="/shop" element={
           <ClientLayout theme={theme} toggleTheme={toggleTheme}>
             <HomeVariant />
+          </ClientLayout>
+        } />
+        <Route path="/home-v2" element={
+          <ClientLayout theme={theme} toggleTheme={toggleTheme}>
+            <HomePageV2 />
           </ClientLayout>
         } />
         <Route path="/services" element={
