@@ -185,17 +185,21 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
 
         {/* Mobile/Tablet Actions - visible at 1024px and below */}
         <div className="desktop:hidden flex items-center gap-3">
-          {/* Theme Toggle - visible on mobile/tablet */}
-          <button 
-            onClick={toggleTheme} 
-            className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-zinc-900 dark:text-white z-50"
-          >
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
+          {/* Theme Toggle - hidden when menu is open, visible when menu is closed */}
+          {!isMobileMenuOpen && (
+            <button 
+              onClick={toggleTheme} 
+              className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-zinc-900 dark:text-white z-50"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+          )}
           {/* Hamburger Menu Toggle */}
           <button 
             className="z-50 text-zinc-900 dark:text-white"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -255,23 +259,23 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
               </Link>
             ))}
             
-            {/* Book Appointment CTA */}
-            <Link 
-              to="/contact" 
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="mb-6 w-full max-w-xs bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-6 py-3 rounded-sm text-sm font-medium hover:bg-gold-500 dark:hover:bg-gold-400 transition-all duration-300 text-center"
-            >
-              Book Appointment
-            </Link>
-            
-            {/* Admin Link */}
+            {/* Admin Link - Primary CTA */}
             <Link 
               to="/admin" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 px-6 py-2.5 bg-gold-500 dark:bg-gold-500 text-white dark:text-white text-sm font-medium rounded-full hover:bg-gold-600 dark:hover:bg-gold-600 transition-all duration-300 shadow-lg shadow-gold-500/30"
+              className="mt-6 flex items-center justify-center gap-2 px-6 py-2.5 bg-gold-500 dark:bg-gold-500 text-white dark:text-white text-sm font-medium rounded-full hover:bg-gold-600 dark:hover:bg-gold-600 transition-all duration-300 shadow-lg shadow-gold-500/30"
             >
               <Shield size={16} />
               <span>Admin</span>
+            </Link>
+            
+            {/* Book Appointment CTA - Secondary CTA */}
+            <Link 
+              to="/contact" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="mt-4 w-full max-w-xs flex items-center justify-center gap-2 px-6 py-2.5 border-2 border-gold-500 dark:border-gold-500 text-gold-600 dark:text-gold-400 bg-transparent dark:bg-transparent rounded-full text-sm font-medium hover:bg-gold-50 dark:hover:bg-gold-500/10 hover:border-gold-600 dark:hover:border-gold-600 transition-all duration-300 text-center"
+            >
+              Book Appointment
             </Link>
           </div>
         </div>
