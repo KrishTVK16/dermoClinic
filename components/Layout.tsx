@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Moon, Sun, Menu, X, ArrowRight, Instagram, Twitter, Linkedin, Facebook, LayoutDashboard, Users, ShoppingBag, FileText, Settings, Sparkles, Check, ChevronDown, Home, Zap } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Moon, Sun, Menu, X, ArrowRight, Instagram, Twitter, Linkedin, Facebook, LayoutDashboard, Users, ShoppingBag, FileText, Settings, Sparkles, Check, ChevronDown, Home, Zap, LogOut, Shield } from 'lucide-react';
 
 // --- Types ---
 interface LayoutProps {
@@ -80,7 +80,7 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
       className={`fixed w-full z-50 transition-all duration-500 ease-in-out ${
         isScrolled 
           ? 'bg-white/80 dark:bg-black/80 backdrop-blur-md py-4 shadow-sm border-b border-zinc-200 dark:border-zinc-800' 
-          : 'bg-transparent py-6'
+          : 'bg-white/95 dark:bg-transparent backdrop-blur-sm py-6'
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
@@ -103,7 +103,7 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
             <button 
               onClick={() => setIsHomeDropdownOpen(!isHomeDropdownOpen)}
               className={`text-sm uppercase tracking-widest font-medium transition-colors hover:text-gold-500 flex items-center gap-1 ${
-                location.pathname === '/' || location.pathname === '/home-v2' ? 'text-gold-500' : 'text-zinc-600 dark:text-zinc-300'
+                location.pathname === '/' || location.pathname === '/home-v2' ? 'text-gold-500' : 'text-zinc-900 dark:text-zinc-300'
               }`}
             >
               Home
@@ -155,13 +155,19 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
               key={link.name} 
               to={link.path}
               className={`text-sm uppercase tracking-widest font-medium transition-colors hover:text-gold-500 ${
-                location.pathname === link.path ? 'text-gold-500' : 'text-zinc-600 dark:text-zinc-300'
+                location.pathname === link.path ? 'text-gold-500' : 'text-zinc-900 dark:text-zinc-300'
               }`}
             >
               {link.name}
             </Link>
           ))}
-          <Link to="/admin" className="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 px-4 py-2 rounded-full hover:bg-gold-500 hover:text-white transition-all duration-300">Admin</Link>
+          <Link 
+            to="/admin" 
+            className="flex items-center gap-2 bg-gold-500 dark:bg-gold-500 text-white dark:text-white px-5 py-2.5 rounded-full hover:bg-gold-600 dark:hover:bg-gold-600 transition-all duration-300 text-sm font-medium shadow-lg shadow-gold-500/30 hover:shadow-gold-500/40"
+          >
+            <Shield size={16} />
+            <span>Admin</span>
+          </Link>
         </nav>
 
         {/* Actions - hidden at 1024px and below */}
@@ -192,56 +198,62 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
         onClick={() => setIsMobileMenuOpen(false)}
       />
       
-      {/* Mobile Menu Panel - 45% width, 60% height, from right */}
-      <div className={`fixed top-0 right-0 w-[55%] sm:w-[45%] h-[70%] bg-white dark:bg-zinc-900 z-40 flex flex-col items-center justify-center rounded-bl-2xl shadow-2xl transition-transform duration-300 overscroll-none ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-         {/* Mobile Home Dropdown */}
-         <div className="mb-4 w-full px-6">
-           <button 
-             onClick={() => setIsMobileHomeOpen(!isMobileHomeOpen)}
-             className="text-lg font-serif hover:text-gold-500 dark:text-zinc-200 transition-colors flex items-center gap-2 justify-center w-full"
-           >
-             Home
-             <ChevronDown size={16} className={`transition-transform duration-200 ${isMobileHomeOpen ? 'rotate-180' : ''}`} />
-           </button>
-           <div className={`overflow-hidden transition-all duration-300 ${isMobileHomeOpen ? 'max-h-40 mt-3' : 'max-h-0'}`}>
-             <div className="space-y-2">
-               {homeOptions.map((option) => (
-                 <Link
-                   key={option.path}
-                   to={option.path}
-                   onClick={() => { setIsMobileMenuOpen(false); setIsMobileHomeOpen(false); }}
-                   className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-all ${
-                     location.pathname === option.path 
-                       ? 'bg-gold-50 dark:bg-gold-500/10 text-gold-600 dark:text-gold-400' 
-                       : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800'
-                   }`}
-                 >
-                   <option.icon size={16} />
-                   {option.name}
-                   {location.pathname === option.path && <Check size={14} className="ml-auto" />}
-                 </Link>
-               ))}
-             </div>
-           </div>
-         </div>
+      {/* Mobile Menu Panel - 65% height, scrollable, from right */}
+      <div className={`fixed top-0 right-0 w-[55%] sm:w-[40%] md:w-[35%] max-w-sm h-[65dvh] max-h-[65dvh] bg-white dark:bg-zinc-900 z-40 flex flex-col rounded-bl-2xl shadow-2xl transition-transform duration-300 overflow-hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        {/* Scrollable content container */}
+        <div className="flex-1 overflow-y-auto overscroll-contain min-h-0">
+          <div className="flex flex-col items-center justify-start py-8 px-6">
+            {/* Mobile Home Dropdown */}
+            <div className="mb-6 w-full flex flex-col items-center">
+              <button 
+                onClick={() => setIsMobileHomeOpen(!isMobileHomeOpen)}
+                className="text-lg font-serif hover:text-gold-500 dark:text-zinc-200 transition-colors flex items-center gap-2 justify-center w-full py-2"
+              >
+                Home
+                <ChevronDown size={16} className={`transition-transform duration-200 ${isMobileHomeOpen ? 'rotate-180' : ''}`} />
+              </button>
+              <div className={`overflow-hidden transition-all duration-300 w-full flex flex-col items-center ${isMobileHomeOpen ? 'max-h-40 mt-3' : 'max-h-0'}`}>
+                <div className="space-y-2 w-full max-w-xs">
+                  {homeOptions.map((option) => (
+                    <Link
+                      key={option.path}
+                      to={option.path}
+                      onClick={() => { setIsMobileMenuOpen(false); setIsMobileHomeOpen(false); }}
+                      className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm transition-all ${
+                        location.pathname === option.path 
+                          ? 'bg-gold-50 dark:bg-gold-500/10 text-gold-600 dark:text-gold-400' 
+                          : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800'
+                      }`}
+                    >
+                      <option.icon size={16} />
+                      {option.name}
+                      {location.pathname === option.path && <Check size={14} />}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
 
-         {navLinks.map((link) => (
+            {navLinks.map((link) => (
+              <Link 
+                key={link.name} 
+                to={link.path}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-lg font-serif mb-4 hover:text-gold-500 dark:text-zinc-200 transition-colors py-2"
+              >
+                {link.name}
+              </Link>
+            ))}
             <Link 
-              key={link.name} 
-              to={link.path}
+              to="/admin" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-lg font-serif mb-4 hover:text-gold-500 dark:text-zinc-200 transition-colors"
+              className="mt-6 flex items-center justify-center gap-2 px-6 py-2.5 bg-gold-500 dark:bg-gold-500 text-white dark:text-white text-sm font-medium rounded-full hover:bg-gold-600 dark:hover:bg-gold-600 transition-all duration-300 shadow-lg shadow-gold-500/30"
             >
-              {link.name}
+              <Shield size={16} />
+              <span>Admin</span>
             </Link>
-          ))}
-          <Link 
-            to="/admin" 
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="mt-6 px-6 py-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-xs uppercase tracking-widest rounded-full hover:bg-gold-500 dark:hover:bg-gold-400 transition-all duration-300"
-          >
-            Admin
-          </Link>
+          </div>
+        </div>
       </div>
     </header>
   );
@@ -347,6 +359,7 @@ export const ClientLayout: React.FC<LayoutProps> = ({ children, theme, toggleThe
 export const AdminLayout: React.FC<LayoutProps> = ({ children, theme, toggleTheme }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/admin' },
@@ -423,6 +436,16 @@ export const AdminLayout: React.FC<LayoutProps> = ({ children, theme, toggleThem
           <div className="flex items-center gap-4">
              <button onClick={toggleTheme} className="p-2 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors">
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+            <button 
+              onClick={() => {
+                // Logout functionality - redirect to home
+                navigate('/');
+              }}
+              className="flex items-center gap-2 px-4 py-2 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-all duration-300 text-sm font-medium"
+            >
+              <LogOut size={16} />
+              <span>Logout</span>
             </button>
             <div className="w-8 h-8 rounded-full bg-gold-500 flex items-center justify-center text-white text-xs font-bold">A</div>
           </div>

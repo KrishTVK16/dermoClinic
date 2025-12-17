@@ -452,9 +452,9 @@ const HeroSectionV2 = () => {
               <span className="text-cyan-400 text-sm font-medium tracking-wide">Advanced Dermatological Science</span>
             </motion.div>
             
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight text-center lg:text-left">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-normal md:leading-tight lg:leading-tight text-center lg:text-left">
               Precision
-              <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent pb-2">
                 Skin Diagnostics
               </span>
             </h1>
