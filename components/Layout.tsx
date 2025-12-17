@@ -183,13 +183,23 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
           </Link>
         </div>
 
-        {/* Mobile Toggle - visible at 1024px and below */}
-        <button 
-          className="desktop:hidden z-50 text-zinc-900 dark:text-white"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile/Tablet Actions - visible at 1024px and below */}
+        <div className="desktop:hidden flex items-center gap-3">
+          {/* Theme Toggle - visible on mobile/tablet */}
+          <button 
+            onClick={toggleTheme} 
+            className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-zinc-900 dark:text-white z-50"
+          >
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+          {/* Hamburger Menu Toggle */}
+          <button 
+            className="z-50 text-zinc-900 dark:text-white"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu Backdrop */}
@@ -198,8 +208,8 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
         onClick={() => setIsMobileMenuOpen(false)}
       />
       
-      {/* Mobile Menu Panel - 65% height, scrollable, from right */}
-      <div className={`fixed top-0 right-0 w-[55%] sm:w-[40%] md:w-[35%] max-w-sm h-[65dvh] max-h-[65dvh] bg-white dark:bg-zinc-900 z-40 flex flex-col rounded-bl-2xl shadow-2xl transition-transform duration-300 overflow-hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      {/* Mobile Menu Panel - 75% height, scrollable, from right */}
+      <div className={`fixed top-0 right-0 w-[55%] sm:w-[40%] md:w-[35%] max-w-sm h-[75dvh] max-h-[75dvh] bg-white dark:bg-zinc-900 z-40 flex flex-col rounded-bl-2xl shadow-2xl transition-transform duration-300 overflow-hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         {/* Scrollable content container */}
         <div className="flex-1 overflow-y-auto overscroll-contain min-h-0">
           <div className="flex flex-col items-center justify-start py-8 px-6">
@@ -244,10 +254,21 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
                 {link.name}
               </Link>
             ))}
+            
+            {/* Book Appointment CTA */}
+            <Link 
+              to="/contact" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="mb-6 w-full max-w-xs bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-6 py-3 rounded-sm text-sm font-medium hover:bg-gold-500 dark:hover:bg-gold-400 transition-all duration-300 text-center"
+            >
+              Book Appointment
+            </Link>
+            
+            {/* Admin Link */}
             <Link 
               to="/admin" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="mt-6 flex items-center justify-center gap-2 px-6 py-2.5 bg-gold-500 dark:bg-gold-500 text-white dark:text-white text-sm font-medium rounded-full hover:bg-gold-600 dark:hover:bg-gold-600 transition-all duration-300 shadow-lg shadow-gold-500/30"
+              className="flex items-center justify-center gap-2 px-6 py-2.5 bg-gold-500 dark:bg-gold-500 text-white dark:text-white text-sm font-medium rounded-full hover:bg-gold-600 dark:hover:bg-gold-600 transition-all duration-300 shadow-lg shadow-gold-500/30"
             >
               <Shield size={16} />
               <span>Admin</span>
