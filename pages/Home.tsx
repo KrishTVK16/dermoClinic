@@ -440,26 +440,26 @@ const HeroSectionV2 = () => {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center lg:text-left"
+            className="text-center"
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full mb-8 mx-auto lg:mx-0"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full mb-8 mx-auto"
             >
               <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
               <span className="text-cyan-400 text-sm font-medium tracking-wide">Advanced Dermatological Science</span>
             </motion.div>
             
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-normal md:leading-tight lg:leading-tight text-center lg:text-left">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-normal md:leading-tight lg:leading-tight text-center">
               Precision
               <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent pb-2">
                 Skin Diagnostics
               </span>
             </h1>
             
-            <p className="text-slate-300 text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed text-center lg:text-left">
+            <p className="text-slate-300 text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed text-center">
               Experience next-generation dermatology powered by AI analysis, advanced imaging, and personalized treatment protocols designed for your unique skin biology.
             </p>
             
@@ -480,7 +480,7 @@ const HeroSectionV2 = () => {
             </div>
             
             {/* Quick Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10 max-w-md mx-auto lg:mx-0">
+            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10 max-w-md mx-auto">
               {[
                 { value: 98, suffix: '%', label: 'Accuracy Rate' },
                 { value: 15000, suffix: '+', label: 'Patients Analyzed' },
