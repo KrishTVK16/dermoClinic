@@ -8,57 +8,50 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%2318181b'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia, serif' font-size='20' font-style='italic' font-weight='bold' fill='%23ffffff'%3EL%3C/text%3E%3C/svg%3E" />
     <link rel="shortcut icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%2318181b'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia, serif' font-size='20' font-style='italic' font-weight='bold' fill='%23ffffff'%3EL%3C/text%3E%3C/svg%3E" />
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%2318181b'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia, serif' font-size='20' font-style='italic' font-weight='bold' fill='%23ffffff'%3EL%3C/text%3E%3C/svg%3E" />
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Fallback CSS - Loads automatically if Tailwind fails -->
+    <link rel="stylesheet" href="/dermoClinic/src/fallback.css" data-fallback-css="true" onerror="this.onerror=null; this.href='./src/fallback.css';">
     <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          screens: {
-            'sm': '640px',
-            'md': '768px',
-            'lg': '1024px',
-            'desktop': '1025px',
-            'xl': '1280px',
-            '2xl': '1536px',
-          },
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              serif: ['Playfair Display', 'serif'],
-            },
-            colors: {
-              gold: {
-                400: '#D4AF37',
-                500: '#C5A028',
-                600: '#B69121',
-              }
-            }
+      // Early CSS and dependency check
+      (function() {
+        const checkDependencies = () => {
+          const issues = [];
+          
+          // Check if import map exists
+          const importMap = document.querySelector('script[type="importmap"]');
+          if (!importMap) {
+            issues.push('Import map not found');
           }
+          
+          // Check CSS loading after a delay
+          setTimeout(() => {
+            const stylesheets = Array.from(document.styleSheets);
+            const hasStyles = stylesheets.length > 0;
+            const hasTailwind = stylesheets.some(sheet => {
+              try {
+                const rules = Array.from(sheet.cssRules || []);
+                return rules.length > 0;
+              } catch (e) {
+                return false;
+              }
+            });
+            
+            if (!hasStyles || !hasTailwind) {
+              console.warn('CSS may not be loaded correctly. Please check your build and ensure Tailwind CSS is included.');
+            }
+          }, 2000);
+        };
+        
+        // Run check when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', checkDependencies);
+        } else {
+          checkDependencies();
         }
-      }
+      })();
     </script>
-    <style>
-      html {
-        scroll-behavior: auto !important;
-      }
-      /* Custom scrollbar for luxury feel */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #09090b; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #27272a; 
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #3f3f46; 
-      }
-    </style>
   <script type="importmap">
 {
   "imports": {

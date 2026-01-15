@@ -15,6 +15,12 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHomeDropdownOpen, setIsHomeDropdownOpen] = useState(false);
   const [isMobileHomeOpen, setIsMobileHomeOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth >= 1024;
+    }
+    return false;
+  });
   const homeDropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
@@ -25,6 +31,21 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile menu when window is resized to desktop size and track desktop state
+  useEffect(() => {
+    const handleResize = () => {
+      const desktop = window.innerWidth >= 1024;
+      setIsDesktop(desktop);
+      if (desktop && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    // Check on mount
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isMobileMenuOpen]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -96,8 +117,8 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
           </div>
         </Link>
 
-        {/* Desktop Nav - hidden at 1024px and below */}
-        <nav className="hidden desktop:flex items-center gap-8">
+        {/* Desktop Nav - hidden on mobile/tablet, visible on desktop */}
+        <nav className="hidden lg:flex items-center gap-8">
           {/* Home Dropdown */}
           <div className="relative" ref={homeDropdownRef}>
             <button 
@@ -170,8 +191,8 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
           </Link>
         </nav>
 
-        {/* Actions - hidden at 1024px and below */}
-        <div className="hidden desktop:flex items-center gap-4">
+        {/* Actions - hidden on mobile/tablet, visible on desktop */}
+        <div className="hidden lg:flex items-center gap-4">
           <button 
             onClick={toggleTheme} 
             className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-zinc-600 dark:text-zinc-300"
@@ -183,8 +204,9 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
           </Link>
         </div>
 
-        {/* Mobile/Tablet Actions - visible at 1024px and below */}
-        <div className="desktop:hidden flex items-center gap-3">
+        {/* Mobile/Tablet Actions - visible on mobile/tablet, hidden on desktop */}
+        {!isDesktop && (
+          <div className="lg:hidden flex items-center gap-3">
           {/* Theme Toggle - hidden when menu is open, visible when menu is closed */}
           {!isMobileMenuOpen && (
             <button 
@@ -204,44 +226,67 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
+        )}
       </div>
 
-      {/* Mobile Menu Backdrop */}
-      <div 
-        className={`fixed inset-0 bg-black/40 z-30 transition-opacity duration-300 touch-none overscroll-none ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
-        onClick={() => setIsMobileMenuOpen(false)}
-      />
+      {/* Mobile Menu Backdrop - Hidden on desktop */}
+      {!isDesktop && (
+        <div 
+          className={`lg:hidden fixed inset-0 bg-black/40 z-30 transition-opacity duration-300 touch-none overscroll-none ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
       
-      {/* Mobile Menu Panel - 75% height, scrollable, from right */}
-      <div className={`fixed top-0 right-0 w-[55%] sm:w-[40%] md:w-[35%] max-w-sm h-[75dvh] max-h-[75dvh] bg-white dark:bg-zinc-900 z-40 flex flex-col rounded-bl-2xl shadow-2xl transition-transform duration-300 overflow-hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      {/* Mobile Menu Panel - 75% height, scrollable, from right - Hidden on desktop */}
+      {!isDesktop && (
+        <div className={`lg:hidden fixed top-0 right-0 w-[55%] sm:w-[40%] md:w-[35%] max-w-sm h-[75dvh] max-h-[75dvh] bg-white dark:bg-zinc-900 z-40 flex flex-col rounded-bl-2xl shadow-2xl transition-transform duration-300 overflow-hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         {/* Scrollable content container */}
         <div className="flex-1 overflow-y-auto overscroll-contain min-h-0">
           <div className="flex flex-col items-center justify-start py-8 px-6">
             {/* Mobile Home Dropdown */}
             <div className="mb-6 w-full flex flex-col items-center">
               <button 
-                onClick={() => setIsMobileHomeOpen(!isMobileHomeOpen)}
-                className="text-lg font-serif hover:text-gold-500 dark:text-zinc-200 transition-colors flex items-center gap-2 justify-center w-full py-2"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsMobileHomeOpen(!isMobileHomeOpen);
+                }}
+                className="text-lg font-serif hover:text-gold-500 dark:text-zinc-200 transition-colors flex items-center gap-2 justify-center w-full py-2 z-50 relative"
+                aria-expanded={isMobileHomeOpen}
+                aria-label="Toggle home options"
               >
                 Home
                 <ChevronDown size={16} className={`transition-transform duration-200 ${isMobileHomeOpen ? 'rotate-180' : ''}`} />
               </button>
-              <div className={`overflow-hidden transition-all duration-300 w-full flex flex-col items-center ${isMobileHomeOpen ? 'max-h-40 mt-3' : 'max-h-0'}`}>
-                <div className="space-y-2 w-full max-w-xs">
+              <div 
+                className={`w-full transition-all duration-300 ease-in-out ${
+                  isMobileHomeOpen 
+                    ? 'max-h-48 opacity-100 mt-3' 
+                    : 'max-h-0 opacity-0 mt-0 overflow-hidden'
+                }`}
+                style={{
+                  transition: 'max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, margin-top 0.3s ease-in-out'
+                }}
+              >
+                <div className="space-y-2 w-full">
                   {homeOptions.map((option) => (
                     <Link
                       key={option.path}
                       to={option.path}
-                      onClick={() => { setIsMobileMenuOpen(false); setIsMobileHomeOpen(false); }}
-                      className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm transition-all ${
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsMobileMenuOpen(false);
+                        setIsMobileHomeOpen(false);
+                      }}
+                      className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm transition-all w-full ${
                         location.pathname === option.path 
-                          ? 'bg-gold-50 dark:bg-gold-500/10 text-gold-600 dark:text-gold-400' 
+                          ? 'bg-gold-50 dark:bg-gold-500/10 text-gold-600 dark:text-gold-400 font-medium' 
                           : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800'
                       }`}
                     >
                       <option.icon size={16} />
-                      {option.name}
-                      {location.pathname === option.path && <Check size={14} />}
+                      <span>{option.name}</span>
+                      {location.pathname === option.path && <Check size={14} className="ml-auto" />}
                     </Link>
                   ))}
                 </div>
@@ -280,6 +325,7 @@ export const Header: React.FC<{ theme: 'dark' | 'light'; toggleTheme: () => void
           </div>
         </div>
       </div>
+      )}
     </header>
   );
 };
@@ -374,7 +420,7 @@ export const ClientLayout: React.FC<LayoutProps> = ({ children, theme, toggleThe
   return (
     <div className={`min-h-screen flex flex-col ${theme}`}>
       <Header theme={theme} toggleTheme={toggleTheme} />
-      <main className="flex-grow pt-16 desktop:pt-0">{children}</main>
+      <main className="flex-grow">{children}</main>
       <Footer />
     </div>
   );
@@ -408,7 +454,7 @@ export const AdminLayout: React.FC<LayoutProps> = ({ children, theme, toggleThem
   }, [isSidebarOpen]);
 
   return (
-    <div className={`min-h-screen flex bg-zinc-50 dark:bg-zinc-950 ${theme}`}>
+    <div className={`min-h-screen flex bg-zinc-50 dark:bg-zinc-950 ${theme}`} style={{ overflowX: 'hidden' }}>
       {/* Sidebar Backdrop for mobile */}
       <div 
         className={`fixed inset-0 bg-black/40 z-30 lg:hidden transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
@@ -416,11 +462,11 @@ export const AdminLayout: React.FC<LayoutProps> = ({ children, theme, toggleThem
       />
 
       {/* Sidebar */}
-      <aside className={`fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
-        <div className="h-16 flex items-center justify-between px-6 border-b border-zinc-200 dark:border-zinc-800">
+      <aside className={`fixed lg:static top-0 left-0 bottom-0 z-40 w-64 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 transform transition-transform duration-300 flex flex-col ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
+        <div className="h-16 flex items-center justify-between px-6 border-b border-zinc-200 dark:border-zinc-800 flex-shrink-0">
            <Link to="/" className="flex items-center gap-2">
             <div className="w-6 h-6 bg-zinc-900 dark:bg-white text-white dark:text-black flex items-center justify-center rounded-sm font-serif text-sm font-bold">L</div>
-            <span className="font-serif text-lg font-bold dark:text-white">Lumière Admin</span>
+            <span className="font-serif text-lg font-bold dark:text-white">Lumière</span>
           </Link>
           <button 
             onClick={() => setIsSidebarOpen(false)} 
@@ -429,22 +475,24 @@ export const AdminLayout: React.FC<LayoutProps> = ({ children, theme, toggleThem
             <X size={20} />
           </button>
         </div>
-        <nav className="p-4 space-y-1">
-          {menuItems.map((item) => (
-            <Link 
-              key={item.path} 
-              to={item.path}
-              onClick={() => setIsSidebarOpen(false)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                location.pathname === item.path 
-                  ? 'bg-zinc-100 dark:bg-zinc-800 text-gold-600 dark:text-gold-400' 
-                  : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800/50'
-              }`}
-            >
-              <item.icon size={18} />
-              {item.label}
-            </Link>
-          ))}
+        <nav className="flex-1 overflow-y-auto p-4">
+          <div className="flex flex-col space-y-1 w-full">
+            {menuItems.map((item) => (
+              <Link 
+                key={item.path} 
+                to={item.path}
+                onClick={() => setIsSidebarOpen(false)}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors w-full ${
+                  location.pathname === item.path 
+                    ? 'bg-zinc-100 dark:bg-zinc-800 text-gold-600 dark:text-gold-400' 
+                    : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800/50'
+                }`}
+              >
+                <item.icon size={18} className="flex-shrink-0" />
+                <span className="flex-1 min-w-0">{item.label}</span>
+              </Link>
+            ))}
+          </div>
         </nav>
       </aside>
 
@@ -467,12 +515,15 @@ export const AdminLayout: React.FC<LayoutProps> = ({ children, theme, toggleThem
                 // Logout functionality - redirect to home
                 navigate('/');
               }}
-              className="flex items-center gap-2 px-4 py-2 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-all duration-300 text-sm font-medium"
+              className="flex items-center gap-2 px-2 sm:px-4 py-2 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-all duration-300 text-sm font-medium"
+              aria-label="Logout"
             >
               <LogOut size={16} />
-              <span>Logout</span>
+              <span className="hidden sm:inline">Logout</span>
             </button>
-            <div className="w-8 h-8 rounded-full bg-gold-500 flex items-center justify-center text-white text-xs font-bold">A</div>
+            <div className="px-2 sm:px-3 py-1 rounded-full bg-gold-500 flex items-center justify-center text-white text-[10px] sm:text-xs font-bold whitespace-nowrap">
+              admin
+            </div>
           </div>
         </header>
         <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 mt-16">

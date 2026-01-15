@@ -5,6 +5,7 @@ import { HomePage, HomeVariant, HomePageV2 } from './pages/Home';
 import { ServicesPage, AboutPage, ContactPage, BlogPage, BlogDetailPage, PricingPage, PrivacyPage, TermsPage } from './pages/InnerPages';
 import { Dashboard, PatientsList, OrdersList, PostsList, ServicesList, AdminSettings } from './pages/Admin';
 import { Theme } from './types';
+import DependencyChecker from './src/DependencyChecker';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -37,9 +38,10 @@ const App = () => {
   };
 
   return (
-    <Router>
-      <ScrollToTop />
-      <Routes>
+    <DependencyChecker>
+      <Router>
+        <ScrollToTop />
+        <Routes>
         {/* Client Routes */}
         <Route path="/" element={
           <ClientLayout theme={theme} toggleTheme={toggleTheme}>
@@ -137,8 +139,9 @@ const App = () => {
         
         {/* Fallbacks */}
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
+        </Routes>
+      </Router>
+    </DependencyChecker>
   );
 };
 

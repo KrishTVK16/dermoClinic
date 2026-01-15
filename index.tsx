@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import './src/index.css';
+import './src/fallback.css';
+import { CSSLoader } from './src/CSSLoader';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -10,6 +13,7 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
+    <CSSLoader />
     <App />
   </React.StrictMode>
 );

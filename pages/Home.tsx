@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Star, CheckCircle, Play, MessageCircle, MapPin, Clock, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -9,39 +9,54 @@ import { generateSkinAdvice } from '../services/gemini';
 
 const HeroSection = () => {
   return (
-    <section className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
+    <section 
+      className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden"
+      style={{
+        minHeight: 'clamp(600px, 100vh, 800px)'
+      }}
+    >
       {/* Background with overlay */}
-      <div className="absolute inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=1920&auto=format&fit=crop" 
-          alt="Luxury Clinic" 
-          className="w-full h-full object-cover"
-        />
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: 'url(/dermoClinic/dist/assets/img1.jfif)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed'
+        }}
+      >
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent dark:from-black/90 dark:via-black/70 dark:to-black/40" />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10 pt-20">
+      <div 
+        className="container mx-auto px-4 sm:px-6 relative z-10"
+        style={{
+          paddingTop: 'clamp(90px, calc(80px + 8vw), 150px)',
+          marginTop: '0'
+        }}
+      >
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="max-w-4xl text-center mx-auto"
         >
-          <span className="text-gold-400 uppercase tracking-[0.25em] text-xs font-bold mb-6 block">Excellence in Aesthetics</span>
-          <h1 className="text-5xl md:text-7xl font-serif font-medium text-white mb-8 leading-[1.1]">
+          <span className="text-gold-400 uppercase tracking-[0.25em] text-[10px] sm:text-xs font-bold mb-4 sm:mb-6 block">Excellence in Aesthetics</span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-serif font-medium text-white mb-6 sm:mb-8 leading-[1.1]">
             Reveal Your <br />
             <span className="italic text-gold-200 font-light">Natural Radiance</span>
           </h1>
-          <p className="text-zinc-200 text-lg md:text-xl mb-12 max-w-xl mx-auto font-light leading-relaxed tracking-wide">
+          <p className="text-zinc-200 text-sm sm:text-base md:text-lg lg:text-xl mb-8 sm:mb-12 max-w-xl mx-auto font-light leading-relaxed tracking-wide px-2">
             Where advanced medical science meets luxury care. Experience personalized dermatology treatments designed for your unique skin journey.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-5 mb-16 justify-center">
-            <Link to="/contact" className="px-10 py-4 bg-white text-zinc-950 font-semibold hover:bg-gold-500 hover:text-white transition-all duration-300 text-center tracking-wide text-sm uppercase">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 mb-12 sm:mb-16 justify-center px-2">
+            <Link to="/contact" className="px-6 sm:px-8 md:px-10 py-3 sm:py-4 bg-white text-zinc-950 font-semibold hover:bg-gold-500 hover:text-white transition-all duration-300 text-center tracking-wide text-xs sm:text-sm uppercase">
               Book Appointment
             </Link>
-            <Link to="/services" className="px-10 py-4 border border-white/20 text-white font-medium hover:bg-white/10 backdrop-blur-sm transition-all duration-300 flex items-center justify-center gap-2 tracking-wide text-sm uppercase">
-              <Play size={16} fill="currentColor" /> View Treatments
+            <Link to="/services" className="px-6 sm:px-8 md:px-10 py-3 sm:py-4 border border-white/20 text-white font-medium hover:bg-white/10 backdrop-blur-sm transition-all duration-300 flex items-center justify-center gap-2 tracking-wide text-xs sm:text-sm uppercase">
+              <Play size={14} className="sm:w-4 sm:h-4" fill="currentColor" /> View Treatments
             </Link>
           </div>
 
@@ -50,7 +65,7 @@ const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
-            className="flex flex-wrap items-center justify-center gap-8 md:gap-12 text-white/60 text-xs uppercase tracking-widest font-medium border-t border-white/10 pt-8 max-w-2xl mx-auto"
+            className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-12 text-white/60 text-[10px] sm:text-xs uppercase tracking-widest font-medium border-t border-white/10 pt-6 sm:pt-8 max-w-2xl mx-auto px-2"
           >
              <div className="flex items-center gap-3 hover:text-white transition-colors cursor-default">
                 <MapPin size={16} className="text-gold-500" />
@@ -71,7 +86,12 @@ const HeroSection = () => {
   );
 };
 
-const ServiceCard = ({ service, index }: { service: Service; index: number }) => {
+interface ServiceCardProps {
+  service: Service;
+  index: number;
+}
+
+const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -279,9 +299,9 @@ export const HomePage = () => {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <ServiceCard key={service.id} service={service} index={index} />
-            ))}
+            {services.map((service, index) => {
+              return <ServiceCard key={service.id} service={service} index={index} />;
+            })}
           </div>
           
           <div className="flex justify-center mt-12">
@@ -418,7 +438,12 @@ const FloatingParticles = () => (
 // Hero Section V2
 const HeroSectionV2 = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950">
+    <section 
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950"
+      style={{
+        minHeight: 'clamp(600px, 100vh, 800px)'
+      }}
+    >
       {/* Animated Background Grid */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0" style={{
@@ -433,14 +458,20 @@ const HeroSectionV2 = () => {
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-cyan-500/20 rounded-full blur-[100px] animate-pulse" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-purple-500/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
       
-      <div className="container mx-auto px-6 relative z-10 py-32">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left Content */}
+      <div 
+        className="container mx-auto px-4 sm:px-6 relative z-10 flex items-center justify-center"
+        style={{
+          paddingTop: 'clamp(90px, calc(80px + 8vw), 150px)',
+          paddingBottom: 'clamp(60px, calc(40px + 5vw), 80px)'
+        }}
+      >
+        <div className="w-full sm:w-[90%] md:w-[80%] lg:w-[65%] max-w-[900px] mx-auto">
+          {/* Centered Content */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center"
+            className="text-center mx-auto w-full"
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -452,35 +483,35 @@ const HeroSectionV2 = () => {
               <span className="text-cyan-400 text-sm font-medium tracking-wide">Advanced Dermatological Science</span>
             </motion.div>
             
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-normal md:leading-tight lg:leading-tight text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 sm:mb-8 leading-tight text-center px-2 sm:px-4">
               Precision
               <span className="block bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent pb-2">
                 Skin Diagnostics
               </span>
             </h1>
             
-            <p className="text-slate-300 text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed text-center">
+            <p className="text-slate-300 text-sm sm:text-base md:text-lg lg:text-xl mb-8 sm:mb-10 mx-auto leading-relaxed text-center px-2 sm:px-4 md:px-6">
               Experience next-generation dermatology powered by AI analysis, advanced imaging, and personalized treatment protocols designed for your unique skin biology.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-10 sm:mb-12 px-2 sm:px-4">
               <Link 
                 to="/contact" 
-                className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 flex items-center justify-center gap-2"
+                className="group px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 Book Skin Analysis
-                <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                <ChevronRight size={16} className="sm:w-[18px] sm:h-[18px] group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link 
                 to="/services" 
-                className="px-8 py-4 bg-white/5 border border-white/20 text-white font-medium rounded-lg hover:bg-white/10 backdrop-blur-sm transition-all duration-300 flex items-center justify-center gap-2"
+                className="px-6 sm:px-8 py-3 sm:py-4 bg-white/5 border border-white/20 text-white font-medium rounded-lg hover:bg-white/10 backdrop-blur-sm transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base"
               >
-                <Scan size={18} /> View Diagnostics
+                <Scan size={16} className="sm:w-[18px] sm:h-[18px]" /> View Diagnostics
               </Link>
             </div>
             
             {/* Quick Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10 max-w-md mx-auto">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 pt-6 sm:pt-8 border-t border-white/10 max-w-lg mx-auto px-2 sm:px-4">
               {[
                 { value: 98, suffix: '%', label: 'Accuracy Rate' },
                 { value: 15000, suffix: '+', label: 'Patients Analyzed' },
@@ -502,12 +533,12 @@ const HeroSectionV2 = () => {
             </div>
           </motion.div>
           
-          {/* Right Content - Visual */}
+          {/* Right Content - Visual - Hidden on desktop, shown below on mobile if needed */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative hidden lg:block"
+            className="relative hidden"
           >
             <div className="relative">
               {/* Main Image */}
