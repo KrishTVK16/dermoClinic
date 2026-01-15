@@ -19,7 +19,7 @@ const HeroSection = () => {
       <div 
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: 'url(/dermoClinic/dist/assets/img1.jfif)',
+          backgroundImage: 'url(/dermoClinic/assets/img1.jfif)',
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
