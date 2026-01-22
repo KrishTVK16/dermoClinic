@@ -475,7 +475,7 @@ export const AdminLayout: React.FC<LayoutProps> = ({ children, theme, toggleThem
             <X size={20} />
           </button>
         </div>
-        <nav className="flex-1 overflow-y-auto p-4">
+        <nav className="flex-1 overflow-y-auto flex flex-col">
           <div className="flex flex-col space-y-1 w-full">
             {menuItems.map((item) => (
               <Link 
